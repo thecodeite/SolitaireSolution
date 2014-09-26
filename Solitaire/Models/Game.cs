@@ -29,15 +29,7 @@ namespace Solitaire.Models
             
             Columns = new Dictionary<int, List<Card>>();
 
-            /* HA  **  **  **  **  **  **                 
-                                  sK  **  **  **  **  **                 
-                                      D8  **  **  **  **                 
-                                          c3  **  **  **                 
-                                              D6  **  **                 
-                                                  cJ  **                 
-                                                      cQ    */
-
-           
+            var faceUpCards = new Queue<Card>(new []{"HA", "sK", "D8", "c3", "D6", "cJ", "cQ"}.Select(Card.FromShortHand));
 
             for (int i = 1; i <= 7; i++)
             {
@@ -46,7 +38,7 @@ namespace Solitaire.Models
                 var cardsFaceDown = Enumerable.Range(0, i - 1).Select(x => new Card());
                 Columns[i].AddRange(cardsFaceDown);
 
-
+                Columns[i].Add(faceUpCards.Dequeue());
             }
         }
 
@@ -78,10 +70,10 @@ namespace Solitaire.Models
 
                 builder.Append(new string(' ', 9));
 
-                for (var columnIndex = 1; columnIndex < 7; columnIndex++)
+                for (var columnIndex = 1; columnIndex <= 7; columnIndex++)
                 {
                     builder.Append(RenderColum(columnIndex, rowIndex));
-                    builder.Append(' ');
+                    builder.Append("  ");
                 }
 
                
@@ -103,7 +95,7 @@ namespace Solitaire.Models
 
         private string RenderComplete(string suit, int rowIndex)
         {
-            return "  ";
+            return "   ";
         }
 
         private string RenderColum(int columnIndex, int rowIndex)
@@ -113,7 +105,7 @@ namespace Solitaire.Models
 
             var cards = Columns[columnIndex];
 
-            var card = cards.Skip(rowIndex).FirstOrDefault();
+            var card = cards.Skip(rowIndex-1).FirstOrDefault();
             if (card != null)
             {
                 return card.Render();
