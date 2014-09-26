@@ -149,8 +149,24 @@ namespace Solitaire.Models
 
         private void MoveCardsOffSTack()
         {
-            WastePile.AddRange(Stack.Take(3));
-            Stack = Stack.Skip(3).ToList();
+            if (Stack.Count <= 3)
+            {
+                // Add the remaining cards to the waste pile
+                WastePile.AddRange(Stack);
+                Stack.Clear();
+
+                // move all cards from the waste pile back into the stack
+                Stack.AddRange(WastePile);
+                WastePile.Clear();
+            }
+            else
+            {
+                // Add top three cards from stack to the waste
+                WastePile.AddRange(Stack.Take(3));
+
+                // remove those three cards from the stack
+                Stack = Stack.Skip(3).ToList();
+            }
         }
 
         public void ParseInput(string userCommand)
