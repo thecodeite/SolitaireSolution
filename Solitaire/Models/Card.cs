@@ -46,7 +46,7 @@ namespace Solitaire.Models
         /// <summary>
         /// When face down, it is showing the back of the card (i.e. the side with no information on)
         /// </summary>
-        public bool IsFaceDown { get; private set; }
+        public bool IsFaceDown { get; set; }
 
         public string Suit { get; private set; }
 
@@ -84,13 +84,13 @@ namespace Solitaire.Models
 
             var suit = shortHand.Substring(0, 1);
             if(!Suits.AllSuits.Contains(suit))
-                throw new Exception("Suit not valid:"+suit);
+                throw new Exception("Suit not valid:"+ shortHand);
 
             var ordinalRepresentation = shortHand.Substring(1, 1);
             var ordinal= OrdinalMap.First(x => x.Value == ordinalRepresentation).Key;
 
 
-            return new Card(suit, ordinal, isFaceDown: false);
+            return new Card(suit, ordinal);
         }
 
        

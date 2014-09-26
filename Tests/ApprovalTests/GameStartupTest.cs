@@ -15,10 +15,23 @@ namespace Tests.ApprovalTests
     class GameStartupTest
     {
         [Test]
+        public void the_board_should_render_empty_before_we_deal()
+        {
+            // When the game is started
+            var game = new Game();
+
+            // the board should be correct
+            string board = game.Render();
+            Approvals.Verify(board);
+        }
+
+        [Test]
         public void the_board_should_appear_correct_on_startup()
         {
             // When the game is started
             var game = new Game();
+
+            game.Deal(Deck.MakeTestDeck());
 
             // the board should be correct
             string board = game.Render();

@@ -26,6 +26,16 @@ namespace Tests.UnitTests
                 "sA s2 s3 s4 s5 s6 s7 s8 s9 sT sJ sQ sK");
         }
 
+        [Test]
+        public void test_deck_contains_cards_in_test_order()
+        {
+            var deck = Deck.MakeTestDeck();
+
+            var deckCards = deck.Cards.Select(x => x.ToShortHand());
+
+            EnumerableToString(deckCards).Should().Be(Deck.TestDeck);
+        }
+
         public void shuffled_deck_contains_all_cards_but_in_different_order()
         {
             var deck = Deck.MakeShuffledDeck();

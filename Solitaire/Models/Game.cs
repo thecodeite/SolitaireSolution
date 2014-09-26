@@ -14,31 +14,45 @@ namespace Solitaire.Models
 
         public Game()
         {
-            Deal();
+            Clear();
         }
 
-        public Card Stack { get; private set; }
+        public List<Card> Stack { get; private set; }
+        public List<Card> WastePile { get; private set; }
 
-        public Dictionary<int, List<Card>> Columns;  
+        public Dictionary<int, List<Card>> Columns;
 
-        public void Deal()
+        public void Clear()
         {
-            // Make it look exactly like the example
-            Stack = new Card(Suits.Diamond, Ordinals.Two, isFaceDown: false);
+            Stack = new List<Card>();
+            WastePile = new List<Card>();
+            Columns = Enumerable.Range(1, 7).ToDictionary(x => x, x => new List<Card>());
+        }
+
+        public void Deal(Deck deck = null)
+        {
+            // If no deck is provided, get a random, shuffled deck
+            deck = deck ?? Deck.MakeShuffledDeck();
+
+            // Init data strcutures
+            Clear();
             
-            Columns = new Dictionary<int, List<Card>>();
-
-            var faceUpCards = new Queue<Card>(new []{"HA", "sK", "D8", "c3", "D6", "cJ", "cQ"}.Select(Card.FromShortHand));
-
-            for (int i = 1; i <= 7; i++)
+            // Deal the columns, one less each time and the first card face up.
+            for (int rowIndex = 0; rowIndex < 7; rowIndex++)
             {
-                Columns[i] = new List<Card>();
-
-                var cardsFaceDown = Enumerable.Range(0, i - 1).Select(x => new Card());
-                Columns[i].AddRange(cardsFaceDown);
-
-                Columns[i].Add(faceUpCards.Dequeue());
+                for (int columnIndex = rowIndex+1; columnIndex <= 7; columnIndex++)
+                {
+                    var card = deck.TakeCard();
+                    var isFirstCardOfRow = (columnIndex == rowIndex + 1);
+                    card.IsFaceDown = !isFirstCardOfRow;
+                        
+                    Columns[columnIndex].Add(card);
+                }
             }
+
+            // Flip the rest of the cards over and make them into the stack
+            deck.Flip();
+            Stack.AddRange(deck.Cards);            
         }
 
         public string Render()
@@ -57,10 +71,10 @@ namespace Solitaire.Models
                 // Print blanks at start
                 builder.Append(new string(' ', 19));
 
-                // On the first row, render the stack
-                if (rowIndex == 1)
+                // On the first row, render the top card of the stack (if any)
+                if (rowIndex == 1 && Stack.Any())
                 {
-                    builder.Append(Stack.Render());
+                    builder.Append(Stack.First().Render());
                 }
                 else
                 {
