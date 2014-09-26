@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,6 +78,15 @@ namespace Tests.UnitTests
 
             card.Suit.Should().Be("H");
             card.Ordinal.Should().Be(2);
+        }
+
+        [TestCase("D")]
+        [TestCase("H")]
+        [TestCase("c")]
+        [TestCase("s")]
+        public void suit_can_be_D_H_c_or_s(string suit)
+        {
+            new Card(suit, 1);
         }
     }
 }

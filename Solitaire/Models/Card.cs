@@ -13,12 +13,15 @@ namespace Solitaire.Models
             {1, "A"}
         };
 
-        public Card() : this("D", 1)
+        public Card() : this(Suits.Diamond, 1)
         {
         }
 
         public Card(string suit, int ordinal)
         {
+            if(!Suits.AllSuits.Contains(suit))
+                throw new ArgumentException("Suit is not valid. Valid values are D H c s", suit);
+
             IsFaceDown = true;
             Suit = suit;
             Ordinal = ordinal;
