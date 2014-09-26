@@ -11,15 +11,18 @@ namespace Solitaire.Models
     {
         private const string BoardHeader = " ColumnNames   S[T]ack        [1] [2] [3] [4] [5] [6] [7] [D] [H] [C] [S]";
         private const string BoardBreaker = "-------------------------------------------------------------------------";
+        public  const string Prompt = "Enter a move: ";
 
         public Game()
         {
             Clear();
         }
 
+        public bool Quit { get; private set; }
+
         public List<Card> Stack { get; private set; }
         public List<Card> WastePile { get; private set; }
-
+       
         public Dictionary<int, List<Card>> Columns;
 
         public void Clear()
@@ -125,6 +128,15 @@ namespace Solitaire.Models
             }
 
             return "  ";
+        }
+
+        public void ParseInput(string userCommand)
+        {
+            if (userCommand == "Q")
+            {
+                Quit = true;
+                return;
+            }
         }
     }
 }

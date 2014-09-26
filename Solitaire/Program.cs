@@ -14,9 +14,16 @@ namespace Solitaire
             var game = new Game();
             game.Deal();
 
-            Console.WriteLine(game.Render());
+            while (game.Quit == false)
+            {
+                Console.Clear();
+                Console.WriteLine(game.Render());
+                Console.Write(Game.Prompt);
 
-            Console.ReadKey();
+                var userCommand = Console.ReadLine();
+                game.ParseInput(userCommand);
+            }
+
         }
     }
 }
