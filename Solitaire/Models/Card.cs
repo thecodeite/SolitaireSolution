@@ -17,7 +17,14 @@ namespace Solitaire.Models
 
         public string Render()
         {
-            return "**";
+            if (IsFaceDown)
+            {
+                return "**";
+            }
+            else
+            {
+                return "??";
+            }
         }
 
         public void Flip()

@@ -25,7 +25,7 @@ namespace Tests.UnitTests
         [Test]
         public void card_should_have_front_and_back_and_start_facing_down_and_can_be_flipped()
         {
-            dynamic card = new Card();
+            var card = new Card();
 
             bool isFaceDown = card.IsFaceDown;
 
@@ -38,7 +38,15 @@ namespace Tests.UnitTests
             isFaceDown.Should().BeFalse();
         }
 
-        
+        [Test]
+        public void front_of_card_should_not_be_blank()
+        {
+            var card = new Card();
+            
+            card.Flip();
+
+            card.Render().Should().NotBe("**");
+        }
 
 
 
