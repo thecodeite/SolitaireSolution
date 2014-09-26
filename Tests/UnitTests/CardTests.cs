@@ -128,6 +128,16 @@ namespace Tests.UnitTests
             card.Render().Should().Be("D" + expected);
         }
 
+        [TestCase("DA", Suits.Diamond, Ordinals.Ace)]
+        [TestCase("H6", Suits.Heart, Ordinals.Six)]
+        [TestCase("cT", Suits.Club, Ordinals.Ten)]
+        [TestCase("sQ", Suits.Spade, Ordinals.Queen)]
+        public void can_create_card_from_short_hand(string shortHand, string expectedSuit, int expectedOrdinal)
+        {
+            Card card = Card.FromShortHand(shortHand);
 
+            card.Suit.Should().Be(expectedSuit);
+            card.Ordinal.Should().Be(expectedOrdinal);
+        }
     }
 }

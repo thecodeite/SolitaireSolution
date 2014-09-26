@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,6 +71,26 @@ namespace Solitaire.Models
         public void Flip()
         {
             IsFaceDown = !IsFaceDown;
+        }
+
+        /// <summary>
+        /// Parse short hand to a card. The card will be face up.
+        /// </summary>
+        /// <example>DA would become the Ace of Diamonds</example>
+        /// <example>H8 would become the Eight of Hearts</example>
+        public static Card FromShortHand(string shortHand)
+        {
+            Debug.Assert(shortHand.Length == 2);
+
+            var suit = shortHand.Substring(0, 1);
+            if(!Suits.AllSuits.Contains(suit))
+                throw new Exception("Suit not valid:"+suit);
+
+            var ordinalRepresentation = shortHand.Substring(1, 1);
+            var ordinal= OrdinalMap.First(x => x.Value == ordinalRepresentation).Key;
+
+
+            return new Card(suit, ordinal, isFaceDown: false);
         }
     }
 }
