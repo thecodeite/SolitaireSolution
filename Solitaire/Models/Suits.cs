@@ -9,16 +9,16 @@ namespace Solitaire.Models
     public static class Suits
     {
        // D - Diamond
-        public static string Diamond = "D";
+        public const string Diamond = "D";
 
         //H - Heart
-        public static string Heart = "H";
+        public const string Heart = "H";
 
         //c - Club (lowercase)
-        public static string Club = "c";
+        public const string Club = "c";
 
         //s - Spade (lowercase)
-        public static string Spade = "s";
+        public const string Spade = "s";
 
         public static string[] AllSuits =
         {

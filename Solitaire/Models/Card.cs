@@ -29,7 +29,7 @@ namespace Solitaire.Models
         {
         }
 
-        public Card(string suit, int ordinal)
+        public Card(string suit, int ordinal, bool isFaceDown = true)
         {
             if(!Suits.AllSuits.Contains(suit))
                 throw new ArgumentException("Suit is not valid. Valid values are 'D', 'H', 'c' and 's'. Case is important.", suit);
@@ -37,7 +37,7 @@ namespace Solitaire.Models
             if(!OrdinalMap.ContainsKey(ordinal))
                 throw new ArgumentException("Ordnial is not valid. Valid values are >= 1 and <= 13");
 
-            IsFaceDown = true;
+            IsFaceDown = isFaceDown;
             Suit = suit;
             Ordinal = ordinal;
         }

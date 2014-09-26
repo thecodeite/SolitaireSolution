@@ -15,6 +15,7 @@ namespace Tests.ApprovalTests
     class GameStartupTest
     {
         [Test]
+        [Ignore]
         public void the_board_should_appear_correct_on_startup()
         {
             // When the game is started
