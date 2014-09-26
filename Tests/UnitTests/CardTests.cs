@@ -21,5 +21,15 @@ namespace Tests.UnitTests
 
             appearance.Should().Be("**");
         }
+
+        [Test]
+        public void card_should_have_front_and_back_and_start_facing_down()
+        {
+            dynamic card = new Card();
+
+            bool isFaceDown = card.IsFaceDown;
+
+            isFaceDown.Should().BeTrue();
+        }
     }
 }
