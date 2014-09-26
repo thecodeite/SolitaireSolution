@@ -147,11 +147,33 @@ namespace Solitaire.Models
             return "  ";
         }
 
+        private void MoveCardsOffSTack()
+        {
+            WastePile.AddRange(Stack.Take(3));
+            Stack = Stack.Skip(3).ToList();
+        }
+
         public void ParseInput(string userCommand)
         {
+            // Not in spec, will check wih client.
+            userCommand = userCommand.ToUpperInvariant();
+
             if (userCommand == "Q")
             {
                 Quit = true;
+                return;
+            }
+
+            if (userCommand == "N")
+            {
+                Clear();
+                Deal();
+                return;
+            }
+
+            if (userCommand == "T")
+            {
+                MoveCardsOffSTack();
                 return;
             }
         }

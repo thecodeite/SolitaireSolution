@@ -6,13 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
+using Solitaire.Helpers;
 using Solitaire.Models;
 using Tests.Utils;
 
 namespace Tests.UnitTests
 {
     [TestFixture]
-    class GameTests
+    internal class GameTests
     {
         [Test]
         public void can_quit_the_game_with_q()
@@ -54,6 +55,56 @@ namespace Tests.UnitTests
             game.DiscardPiles[Suits.Heart].Should().BeEmpty();
             game.DiscardPiles[Suits.Club].Should().BeEmpty();
             game.DiscardPiles[Suits.Spade].Should().BeEmpty();
+        }
+
+        [Test]
+        public void t_should_move_three_cards_from_stack_to_waste()
+        {
+            var game = new Game();
+            game.Deal(Deck.MakeDefaultDeck());
+
+            game.Stack.ToStringList()
+                .Should()
+                .Be("sK^ sQ^ sJ^ sT^ s9^ s8^ s7^ s6^ s5^ s4^ s3^ s2^ sA^ cK^ cQ^ cJ^ cT^ c9^ c8^ c7^ c6^ c5^ c4^ c3^");
+            game.WastePile.Should().BeEmpty();
+
+            game.ParseInput("T");
+
+            game.Stack.ToStringList()
+                .Should()
+                .Be("sT^ s9^ s8^ s7^ s6^ s5^ s4^ s3^ s2^ sA^ cK^ cQ^ cJ^ cT^ c9^ c8^ c7^ c6^ c5^ c4^ c3^");
+
+            game.WastePile.ToStringList()
+                .Should()
+                .Be("sK^ sQ^ sJ^");
+
+        }
+
+        [Test]
+        public void t_should_refresh_stack_from_waste_if_stack_three_or_less()
+        {
+            var game = new Game();
+            game.Deal(Deck.MakeDefaultDeck());
+
+            // Move 3 off the stack 7 times
+            7.Times(x => game.ParseInput("T"));
+
+            game.Stack.ToStringList()
+                .Should()
+                .Be("c5^ c4^ c3^");
+            game.WastePile.ToStringList()
+                .Should()
+                .Be("sK^ sQ^ sJ^ sT^ s9^ s8^ s7^ s6^ s5^ s4^ s3^ s2^ sA^ cK^ cQ^ cJ^ cT^ c9^ c8^ c7^ c6^");
+
+            game.ParseInput("T");
+
+            game.Stack.ToStringList()
+                .Should()
+                .Be("sK^ sQ^ sJ^ sT^ s9^ s8^ s7^ s6^ s5^ s4^ s3^ s2^ sA^ cK^ cQ^ cJ^ cT^ c9^ c8^ c7^ c6^ c5^ c4^ c3^");
+
+            game.WastePile.ToStringList()
+                .Should().BeEmpty();
+
         }
     }
 }

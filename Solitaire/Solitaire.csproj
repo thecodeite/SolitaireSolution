@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\RubySugar.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\Deck.cs" />
     <Compile Include="Models\Game.cs" />
