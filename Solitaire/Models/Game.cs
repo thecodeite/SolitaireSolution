@@ -14,16 +14,15 @@ namespace Solitaire.Models
 
         public Game()
         {
-            Reset();
+            Deal();
         }
 
         public Card Stack { get; private set; }
 
         public Dictionary<int, List<Card>> Columns;  
 
-        public void Reset()
+        public void Deal()
         {
-
             // Make it look exactly like the example
             Stack = new Card(Suits.Diamond, Ordinals.Two, isFaceDown: false);
             
@@ -50,7 +49,7 @@ namespace Solitaire.Models
             builder.AppendLine(BoardHeader);
             builder.AppendLine(BoardBreaker);
 
-            var highestRow = 7; // Hard coded to 7 for now, can be larger.
+            var highestRow = 7; // this would probably be better: Columns.Select(x => x.Value.Count).Max();
 
             // Render rows
             for (var rowIndex = 1; rowIndex <= highestRow; rowIndex++)

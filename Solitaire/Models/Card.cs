@@ -54,11 +54,11 @@ namespace Solitaire.Models
 
         public string Render()
         {
-            if (IsFaceDown)
-            {
-                return "**";
-            }
+            return IsFaceDown ? "**" : ToShortHand();
+        }
 
+        public string ToShortHand()
+        {
             string ordinal;
             if (!OrdinalMap.TryGetValue(Ordinal, out ordinal))
             {
@@ -92,5 +92,7 @@ namespace Solitaire.Models
 
             return new Card(suit, ordinal, isFaceDown: false);
         }
+
+       
     }
 }
