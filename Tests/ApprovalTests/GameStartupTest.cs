@@ -37,5 +37,18 @@ namespace Tests.ApprovalTests
             string board = game.Render();
             Approvals.Verify(board);
         }
+
+        [Test]
+        public void the_board_should_appear_correct_if_we_cheat()
+        {
+            // When the game is started
+            var game = new Game();
+
+            game.Cheat();
+
+            // the board should be correct
+            string board = game.Render();
+            Approvals.Verify(board);
+        }
     }
 }

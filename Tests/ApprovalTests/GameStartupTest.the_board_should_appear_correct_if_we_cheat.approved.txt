@@ -1,0 +1,15 @@
+﻿ ColumnNames   S[T]ack        [1] [2] [3] [4] [5] [6] [7] [D] [H] [C] [S]
+-------------------------------------------------------------------------
+                                                          DA  HA  cA  sA 
+                                                          D2  H2  c2  s2 
+                                                          D3  H3  c3  s3 
+                                                          D4  H4  c4  s4 
+                                                          D5  H5  c5  s5 
+                                                          D6  H6  c6  s6 
+                                                          D7  H7  c7  s7 
+                                                          D8  H8  c8  s8 
+                                                          D9  H9  c9  s9 
+                                                          DT  HT  cT  sT 
+                                                          DJ  HJ  cJ  sJ 
+                                                          DQ  HQ  cQ  sQ 
+                                                          DK  HK  cK  sK 

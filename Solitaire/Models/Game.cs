@@ -22,14 +22,16 @@ namespace Solitaire.Models
 
         public List<Card> Stack { get; private set; }
         public List<Card> WastePile { get; private set; }
-       
-        public Dictionary<int, List<Card>> Columns;
+
+        public Dictionary<string, List<Card>> DiscardPiles { get; private set; }
+        public Dictionary<int, List<Card>> Columns { get; private set; }
 
         public void Clear()
         {
             Stack = new List<Card>();
             WastePile = new List<Card>();
             Columns = Enumerable.Range(1, 7).ToDictionary(x => x, x => new List<Card>());
+            DiscardPiles = Suits.AllSuits.ToDictionary(x => x, x => new List<Card>());
         }
 
         public void Deal(Deck deck = null)
@@ -58,6 +60,18 @@ namespace Solitaire.Models
             Stack.AddRange(deck.Cards);            
         }
 
+        public void Cheat()
+       { 
+            Clear();
+            foreach (var suit in Suits.AllSuits)
+            {
+                foreach (var ordinal in Ordinals.AllOrdinals)
+                {
+                    DiscardPiles[suit].Add(new Card(suit, ordinal, isFaceDown: false));
+                }
+            }
+        }
+
         public string Render()
         {
             var builder = new StringBuilder();
@@ -66,7 +80,9 @@ namespace Solitaire.Models
             builder.AppendLine(BoardHeader);
             builder.AppendLine(BoardBreaker);
 
-            var highestRow = 7; // this would probably be better: Columns.Select(x => x.Value.Count).Max();
+            var highestRow =  Columns.Select(x => x.Value.Count)
+                .Concat(DiscardPiles.Select(x => x.Value.Count))
+                .Max();
 
             // Render rows
             for (var rowIndex = 1; rowIndex <= highestRow; rowIndex++)
@@ -84,34 +100,35 @@ namespace Solitaire.Models
                     builder.Append("  ");
                 }
 
-                builder.Append(new string(' ', 9));
+                builder.Append(new string(' ', 8));
 
                 for (var columnIndex = 1; columnIndex <= 7; columnIndex++)
                 {
+                    builder.Append(' ');
                     builder.Append(RenderColum(columnIndex, rowIndex));
-                    builder.Append("  ");
+                    builder.Append(' ');
                 }
 
-               
-                builder.Append(RenderComplete(Suits.Diamond, rowIndex));
-                builder.Append(' ');
+                new []{Suits.Diamond, Suits.Heart, Suits.Club, Suits.Spade}
+                    .ToList().ForEach(suit =>
+                    {
+                        builder.Append(' ');
+                        builder.Append(RenderDiscardPile(suit, rowIndex));
+                        builder.Append(' ');
+                    });
 
-                builder.Append(RenderComplete(Suits.Heart, rowIndex));
-                builder.Append(' ');
-
-                builder.Append(RenderComplete(Suits.Club, rowIndex));
-                builder.Append(' ');
-
-                builder.Append(RenderComplete(Suits.Spade, rowIndex));
                 builder.AppendLine();
             }
 
             return builder.ToString();
         }
 
-        private string RenderComplete(string suit, int rowIndex)
+        private string RenderDiscardPile(string pileSuit, int rowIndex)
         {
-            return "   ";
+            var pile = DiscardPiles[pileSuit];
+            var card = pile.Skip(rowIndex-1).FirstOrDefault();
+
+            return card == null ? "  " : card.Render();
         }
 
         private string RenderColum(int columnIndex, int rowIndex)

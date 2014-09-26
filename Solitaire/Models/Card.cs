@@ -52,6 +52,11 @@ namespace Solitaire.Models
 
         public int Ordinal { get; private set; }
 
+        public override string ToString()
+        {
+            return ToShortHand() + (IsFaceDown ? "v" : "^");
+        }
+
         public string Render()
         {
             return IsFaceDown ? "**" : ToShortHand();
