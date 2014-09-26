@@ -23,13 +23,24 @@ namespace Tests.UnitTests
         }
 
         [Test]
-        public void card_should_have_front_and_back_and_start_facing_down()
+        public void card_should_have_front_and_back_and_start_facing_down_and_can_be_flipped()
         {
             dynamic card = new Card();
 
             bool isFaceDown = card.IsFaceDown;
 
             isFaceDown.Should().BeTrue();
+
+            card.Flip();
+
+            isFaceDown = card.IsFaceDown;
+
+            isFaceDown.Should().BeFalse();
         }
+
+        
+
+
+
     }
 }

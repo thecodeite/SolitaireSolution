@@ -13,11 +13,16 @@ namespace Solitaire.Models
             IsFaceDown = true;
         }
 
-        public bool IsFaceDown { get; set; }
+        public bool IsFaceDown { get; private set; }
 
         public string Render()
         {
             return "**";
+        }
+
+        public void Flip()
+        {
+            IsFaceDown = !IsFaceDown;
         }
     }
 }
