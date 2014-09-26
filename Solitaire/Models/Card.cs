@@ -8,12 +8,27 @@ namespace Solitaire.Models
 {
     public class Card
     {
-        public Card()
+        private static readonly Dictionary<int, string> OrdinalMap = new Dictionary<int, string>
+        {
+            {1, "A"}
+        };
+
+        public Card() : this("D", 1)
+        {
+        }
+
+        public Card(string suit, int ordinal)
         {
             IsFaceDown = true;
+            Suit = suit;
+            Ordinal = ordinal;
         }
 
         public bool IsFaceDown { get; private set; }
+
+        public string Suit { get; private set; }
+
+        public int Ordinal { get; private set; }
 
         public string Render()
         {
@@ -21,10 +36,14 @@ namespace Solitaire.Models
             {
                 return "**";
             }
-            else
+
+            string ordinal;
+            if (!OrdinalMap.TryGetValue(Ordinal, out ordinal))
             {
-                return "??";
+                return Suit + "?";
             }
+
+            return Suit + ordinal;
         }
 
         public void Flip()

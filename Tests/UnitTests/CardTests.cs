@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,7 +49,34 @@ namespace Tests.UnitTests
             card.Render().Should().NotBe("**");
         }
 
+        [Test]
+        public void card_has_suit_and_ordinal_defaulting_to_ace_of_diamonds_and_have_ordinal_1()
+        {
+            var card = new Card();
 
+            var suit = card.Suit;
+            var ordinalIndex = card.Ordinal;
 
+            suit.Should().Be("D");
+            ordinalIndex.Should().Be(1);
+        }
+
+        [Test]
+        public void default_card_renders_as_DA()
+        {
+            var card = new Card();
+            card.Flip();
+
+            card.Render().Should().Be("DA");
+        }
+
+        [Test]
+        public void suit_and_ordnial_are_settable_on_creation()
+        {
+            var card = new Card("H", 2);
+
+            card.Suit.Should().Be("H");
+            card.Ordinal.Should().Be(2);
+        }
     }
 }
