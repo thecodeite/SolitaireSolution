@@ -17,6 +17,7 @@ namespace Solitaire
             while (game.Quit == false)
             {
                 Console.Clear();
+                Console.WriteLine(game.Message);
                 Console.WriteLine(game.Render());
                 Console.Write(Game.Prompt);
 

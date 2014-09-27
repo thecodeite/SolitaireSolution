@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,5 +25,10 @@ namespace Solitaire.Models
         {
             Diamond, Heart, Club, Spade
         };
+
+        public static IEnumerable<string> AllSuitsUpperCase
+        {
+            get { return AllSuits.Select(x => x.ToUpperInvariant()); }
+        }
     }
 }
