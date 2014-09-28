@@ -234,12 +234,14 @@ namespace Solitaire.Models
                 .First(x => string.Equals( x.ToShortHand(), cardShortHand, StringComparison.InvariantCultureIgnoreCase));
 
             var index = currentLocation.IndexOf(card);
-            var count = currentLocation.Count - index;
+            int  count = 1;
 
+            var destination = GetLocation(dest);
+            
             // Do not move child cards unless moving from column to column
-            if (!currentLocation.IsColumn)
+            if (currentLocation.IsColumn && destination.IsColumn)
             {
-                count = 1;
+                count = currentLocation.Count - index;
             }
 
             var cards = currentLocation.GetRange(index, count);
@@ -252,7 +254,7 @@ namespace Solitaire.Models
                 tip.Flip();
             }
 
-            var destination = GetLocation(dest);
+           
             destination.AddRange(cards);
         }
 
