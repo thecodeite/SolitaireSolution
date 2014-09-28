@@ -12,6 +12,7 @@ namespace Tests.ApprovalTests
 {
     [TestFixture]
     [UseReporter(typeof(DiffReporter))]
+    //[UseReporter(typeof(VisualStudioReporter))]
     class GameStartupTest
     {
         [Test]
