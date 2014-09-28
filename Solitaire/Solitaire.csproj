@@ -52,6 +52,7 @@
     <Compile Include="Models\Deck.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\Ordinals.cs" />
+    <Compile Include="Models\Pile.cs" />
     <Compile Include="Models\Shuffler.cs" />
     <Compile Include="Models\Suits.cs" />
     <Compile Include="Program.cs" />

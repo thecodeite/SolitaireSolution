@@ -23,15 +23,15 @@ namespace Solitaire.Models
         public bool Quit { get; private set; }
         public string Message { get; private set; }
 
-        public Dictionary<string, List<Card>> Locations { get; private set; }
+        public Dictionary<string, Pile> Locations { get; private set; }
 
-        public List<Card> Stack 
+        public Pile Stack 
         {
             get { return Locations["T"]; }
             set { Locations["T"] = value; }
         }
 
-        public List<Card> WastePile
+        public Pile WastePile
         {
             get { return Locations["W"]; }
             set { Locations["W"] = value; }
@@ -44,7 +44,7 @@ namespace Solitaire.Models
                 .Concat(new[] {"W", "T"})
                 .ToList();
 
-            Locations = columnNames.ToDictionary(x => x, x => new List<Card>());
+            Locations = columnNames.ToDictionary(x => x, x => new Pile());
         }
 
         public void Deal(Deck deck = null)
@@ -166,20 +166,15 @@ namespace Solitaire.Models
             if (Stack.Count <= 3)
             {
                 // Add the remaining cards to the waste pile
-                WastePile.AddRange(Stack);
-                Stack.Clear();
+                Stack.MoveTo(WastePile, Stack);
 
                 // move all cards from the waste pile back into the stack
-                Stack.AddRange(WastePile);
-                WastePile.Clear();
+                WastePile.MoveTo(Stack, WastePile);
             }
             else
             {
-                // Add top three cards from stack to the waste
-                WastePile.AddRange(Stack.Take(3));
-
-                // remove those three cards from the stack
-                Stack = Stack.Skip(3).ToList();
+                // Move top three cards to waste pile
+                Stack.MoveTo(WastePile, Stack.Take(3));
             }
         }
 
@@ -243,7 +238,7 @@ namespace Solitaire.Models
             var index = currentLocation.Value.IndexOf(card);
             var count = currentLocation.Value.Count - index;
             
-            // Do not move child cards if the location is the stack
+            // Do not move child cards unless moving from column to column
             if (currentLocation.Key == "T")
             {
                 count = 1;
