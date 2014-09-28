@@ -1,8 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ApprovalTests;
 using ApprovalTests.Reporters;
 using NUnit.Framework;
@@ -10,33 +5,35 @@ using Solitaire.Models;
 
 namespace Tests.ApprovalTests
 {
-
     [TestFixture]
-    [UseReporter(typeof(DiffReporter))]
+    [UseReporter(typeof (DiffReporter))]
     //[UseReporter(typeof(VisualStudioReporter))]
-    internal class MovementTests
+    internal class IllegalMovementTests
     {
         [Test]
-        public void can_make_legal_move_from_one_column_to_another()
+        public void can_make_illegal_move_of_face_down_card()
         {
             var game = new Game();
             game.Deal(Deck.MakeTestDeck());
 
-            // Move jack of clubs from column 6 to column 7
-            game.ParseInput("cJ 7");
+            // Move face down queen of hearts to column 2 on top of king of spades
+            game.ParseInput("HQ 2");
 
             string board = game.Render();
             Approvals.Verify(board);
         }
-
+        
         [Test]
-        public void can_make_legal_move_from_one_column_to_another_and_child_cards_move_too()
+        [Ignore]
+        // Not sure of the value of this test as game has to be in illegal state for this rule to occur
+        public void cards_may_be_moved_even_if_cards_below_are_not_sequential_descending_and_of_alternating_case()
         {
             var game = new Game();
             game.Deal(Deck.MakeTestDeck());
 
-            // Move jack of clubs from column 6 to column 7
-            game.ParseInput("cJ 7");
+            // Move two of diamonds on top of queen of hearts in column 7
+            // This move should probably not be legal in the end either, but is
+            game.ParseInput("D2 7");
 
             // Move queene of diamonds from column 7 to column 2
             game.ParseInput("DQ 2");
@@ -46,6 +43,7 @@ namespace Tests.ApprovalTests
         }
 
         [Test]
+        [Ignore]
         public void can_make_legal_move_ace_from_column_to_waste()
         {
             var game = new Game();
@@ -59,6 +57,7 @@ namespace Tests.ApprovalTests
         }
 
         [Test]
+        [Ignore]
         public void can_make_legal_move_king_to_empty_space()
         {
             var game = new Game();
@@ -75,6 +74,7 @@ namespace Tests.ApprovalTests
         }
 
         [Test]
+        [Ignore]
         public void can_make_legal_move_card_from_stack_to_columns()
         {
             var game = new Game();
