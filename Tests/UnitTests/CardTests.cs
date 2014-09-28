@@ -51,15 +51,15 @@ namespace Tests.UnitTests
         }
 
         [Test]
-        public void card_has_suit_and_ordinal_defaulting_to_ace_of_diamonds_and_have_ordinal_1()
+        public void card_has_suit_and_rank_defaulting_to_ace_of_diamonds_and_have_rank_1()
         {
             var card = new Card();
 
             var suit = card.Suit;
-            var ordinalIndex = card.Ordinal;
+            var rankIndex = card.Rank;
 
             suit.Should().Be("D");
-            ordinalIndex.Should().Be(1);
+            rankIndex.Should().Be(1);
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace Tests.UnitTests
             var card = new Card("H", 2);
 
             card.Suit.Should().Be("H");
-            card.Ordinal.Should().Be(2);
+            card.Rank.Should().Be(2);
         }
 
         [TestCase("D")]
@@ -119,7 +119,7 @@ namespace Tests.UnitTests
         [TestCase(11, "J")]
         [TestCase(12, "Q")]
         [TestCase(13, "K")]
-        public void ordinal_can_be_between_1_and_13_inclusive(int ordnial, string expected)
+        public void rank_can_be_between_1_and_13_inclusive(int ordnial, string expected)
         {
             var card = new Card(Suits.Diamond, ordnial);
 
@@ -128,16 +128,16 @@ namespace Tests.UnitTests
             card.Render().Should().Be("D" + expected);
         }
 
-        [TestCase("DA", Suits.Diamond, Ordinals.Ace)]
-        [TestCase("H6", Suits.Heart, Ordinals.Six)]
-        [TestCase("cT", Suits.Club, Ordinals.Ten)]
-        [TestCase("sQ", Suits.Spade, Ordinals.Queen)]
-        public void can_create_card_from_short_hand(string shortHand, string expectedSuit, int expectedOrdinal)
+        [TestCase("DA", Suits.Diamond, Ranks.Ace)]
+        [TestCase("H6", Suits.Heart, Ranks.Six)]
+        [TestCase("cT", Suits.Club, Ranks.Ten)]
+        [TestCase("sQ", Suits.Spade, Ranks.Queen)]
+        public void can_create_card_from_short_hand(string shortHand, string expectedSuit, int expectedRank)
         {
             Card card = Card.FromShortHand(shortHand);
 
             card.Suit.Should().Be(expectedSuit);
-            card.Ordinal.Should().Be(expectedOrdinal);
+            card.Rank.Should().Be(expectedRank);
         }
     }
 }

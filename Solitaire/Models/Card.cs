@@ -9,7 +9,7 @@ namespace Solitaire.Models
 {
     public class Card
     {
-        private static readonly Dictionary<int, string> OrdinalMap = new Dictionary<int, string>
+        private static readonly Dictionary<int, string> RankMap = new Dictionary<int, string>
         {
             {1, "A"},
             {2, "2"},
@@ -30,17 +30,17 @@ namespace Solitaire.Models
         {
         }
 
-        public Card(string suit, int ordinal, bool isFaceDown = true)
+        public Card(string suit, int rank, bool isFaceDown = true)
         {
             if(!Suits.AllSuits.Contains(suit))
                 throw new ArgumentException("Suit is not valid. Valid values are 'D', 'H', 'c' and 's'. Case is important.", suit);
 
-            if(!OrdinalMap.ContainsKey(ordinal))
+            if(!RankMap.ContainsKey(rank))
                 throw new ArgumentException("Ordnial is not valid. Valid values are >= 1 and <= 13");
 
             IsFaceDown = isFaceDown;
             Suit = suit;
-            Ordinal = ordinal;
+            Rank = rank;
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Solitaire.Models
 
         public string Suit { get; private set; }
 
-        public int Ordinal { get; private set; }
+        public int Rank { get; private set; }
 
         public override string ToString()
         {
@@ -64,13 +64,13 @@ namespace Solitaire.Models
 
         public string ToShortHand()
         {
-            string ordinal;
-            if (!OrdinalMap.TryGetValue(Ordinal, out ordinal))
+            string rank;
+            if (!RankMap.TryGetValue(Rank, out rank))
             {
                 return Suit + "?";
             }
 
-            return Suit + ordinal;
+            return Suit + rank;
         }
 
         public void Flip()
@@ -91,11 +91,11 @@ namespace Solitaire.Models
             if(!Suits.AllSuits.Contains(suit))
                 throw new Exception("Suit not valid:"+ shortHand);
 
-            var ordinalRepresentation = shortHand.Substring(1, 1);
-            var ordinal= OrdinalMap.First(x => x.Value == ordinalRepresentation).Key;
+            var rankRepresentation = shortHand.Substring(1, 1);
+            var rank= RankMap.First(x => x.Value == rankRepresentation).Key;
 
 
-            return new Card(suit, ordinal);
+            return new Card(suit, rank);
         }
 
        

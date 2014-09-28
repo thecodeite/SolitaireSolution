@@ -40,9 +40,9 @@ namespace Solitaire.Models
         {
             foreach (var suit in Suits.AllSuits)
             {
-                foreach (var ordinal in Ordinals.AllOrdinals)
+                foreach (var rank in Ranks.AllRanks)
                 {
-                    yield return new Card(suit, ordinal);
+                    yield return new Card(suit, rank);
                 }
             }
         }

@@ -76,9 +76,9 @@ namespace Solitaire.Models
             Clear();
             foreach (var suit in Suits.AllSuits)
             {
-                foreach (var ordinal in Ordinals.AllOrdinals)
+                foreach (var rank in Ranks.AllRanks)
                 {
-                    GetLocation(suit.ToUpperInvariant()).Add(new Card(suit, ordinal, isFaceDown: false));
+                    GetLocation(suit.ToUpperInvariant()).Add(new Card(suit, rank, isFaceDown: false));
                 }
             }
         }

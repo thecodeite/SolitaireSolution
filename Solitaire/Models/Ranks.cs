@@ -2,7 +2,7 @@
 
 namespace Solitaire.Models
 {
-    public static class Ordinals
+    public static class Ranks
     {
         public const int Ace = 1;
         public const int Two = 2;
@@ -18,6 +18,6 @@ namespace Solitaire.Models
         public const int Queen = 12;
         public const int King = 13;
 
-        public static readonly int[] AllOrdinals = Enumerable.Range(1, 13).ToArray();
+        public static readonly int[] AllRanks = Enumerable.Range(1, 13).ToArray();
     }
 }
