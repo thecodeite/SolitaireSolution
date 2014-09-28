@@ -35,23 +35,23 @@ namespace Tests.UnitTests
             game.Deal(Deck.MakeDefaultDeck());
 
             // Check the columns contain the right cards. The ^ = face up, v = face down.
-            game.Locations["1"].ToStringList().Should().Be("DA^");
-            game.Locations["2"].ToStringList().Should().Be("D2v D8^");
-            game.Locations["3"].ToStringList().Should().Be("D3v D9v HA^");
-            game.Locations["4"].ToStringList().Should().Be("D4v DTv H2v H6^");
-            game.Locations["5"].ToStringList().Should().Be("D5v DJv H3v H7v HT^");
-            game.Locations["6"].ToStringList().Should().Be("D6v DQv H4v H8v HJv HK^");
-            game.Locations["7"].ToStringList().Should().Be("D7v DKv H5v H9v HQv cAv c2^");
+            game.GetLocation('1').ToStringList().Should().Be("DA^");
+            game.GetLocation('2').ToStringList().Should().Be("D2v D8^");
+            game.GetLocation('3').ToStringList().Should().Be("D3v D9v HA^");
+            game.GetLocation('4').ToStringList().Should().Be("D4v DTv H2v H6^");
+            game.GetLocation('5').ToStringList().Should().Be("D5v DJv H3v H7v HT^");
+            game.GetLocation('6').ToStringList().Should().Be("D6v DQv H4v H8v HJv HK^");
+            game.GetLocation('7').ToStringList().Should().Be("D7v DKv H5v H9v HQv cAv c2^");
 
             // Check the stack contains the rest of the cards face up and in reverse
             game.Stack.ToStringList()
                 .Should()
                 .Be("sK^ sQ^ sJ^ sT^ s9^ s8^ s7^ s6^ s5^ s4^ s3^ s2^ sA^ cK^ cQ^ cJ^ cT^ c9^ c8^ c7^ c6^ c5^ c4^ c3^");
 
-            game.Locations[Suits.Diamond].Should().BeEmpty();
-            game.Locations[Suits.Heart].Should().BeEmpty();
-            game.Locations[Suits.Club.ToUpperInvariant()].Should().BeEmpty();
-            game.Locations[Suits.Spade.ToUpperInvariant()].Should().BeEmpty();
+            game.GetLocation(Suits.Diamond).Should().BeEmpty();
+            game.GetLocation(Suits.Heart).Should().BeEmpty();
+            game.GetLocation(Suits.Club.ToUpperInvariant()).Should().BeEmpty();
+            game.GetLocation(Suits.Spade.ToUpperInvariant()).Should().BeEmpty();
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace Tests.UnitTests
             game.Stack.ToStringList()
                 .Should()
                 .Be("sK^ sQ^ sJ^ sT^ s9^ s8^ s7^ s6^ s5^ s4^ s3^ s2^ sA^ cK^ cQ^ cJ^ cT^ c9^ c8^ c7^ c6^ c5^ c4^ c3^");
-            game.Locations["1"].ToStringList().Should().Be("DA^");
+            game.GetLocation('1').ToStringList().Should().Be("DA^");
 
             game.ParseInput("SK 1");
 
@@ -121,7 +121,7 @@ namespace Tests.UnitTests
             game.Stack.ToStringList()
                 .Should()
                 .Be("sQ^ sJ^ sT^ s9^ s8^ s7^ s6^ s5^ s4^ s3^ s2^ sA^ cK^ cQ^ cJ^ cT^ c9^ c8^ c7^ c6^ c5^ c4^ c3^");
-            game.Locations["1"].ToStringList().Should().Be("DA^ sK^");
+            game.GetLocation('1').ToStringList().Should().Be("DA^ sK^");
 
         }
 
@@ -135,7 +135,7 @@ namespace Tests.UnitTests
             game.Stack.ToStringList()
                 .Should()
                 .Be("sK^ sQ^ sJ^ sT^ s9^ s8^ s7^ s6^ s5^ s4^ s3^ s2^ sA^ cK^ cQ^ cJ^ cT^ c9^ c8^ c7^ c6^ c5^ c4^ c3^");
-            game.Locations["1"].ToStringList().Should().Be("DA^");
+            game.GetLocation('1').ToStringList().Should().Be("DA^");
 
             game.ParseInput("SK 1");
 
@@ -143,7 +143,7 @@ namespace Tests.UnitTests
             game.Stack.ToStringList()
                 .Should()
                 .Be("sQ^ sJ^ sT^ s9^ s8^ s7^ s6^ s5^ s4^ s3^ s2^ sA^ cK^ cQ^ cJ^ cT^ c9^ c8^ c7^ c6^ c5^ c4^ c3^");
-            game.Locations["1"].ToStringList().Should().Be("DA^ sK^");
+            game.GetLocation('1').ToStringList().Should().Be("DA^ sK^");
 
         }
 
@@ -153,21 +153,21 @@ namespace Tests.UnitTests
             var game = new Game();
             game.Deal(Deck.MakeTestDeck());
 
-            game.Locations["2"].ToStringList().Should().Be("DAv sK^");
-            game.Locations["6"].ToStringList().Should().Be("HTv HQv H4v H8v HJv cJ^");
-            game.Locations["7"].ToStringList().Should().Be("D7v DKv H5v H9v cQv cAv DQ^");
+            game.GetLocation('2').ToStringList().Should().Be("DAv sK^");
+            game.GetLocation('6').ToStringList().Should().Be("HTv HQv H4v H8v HJv cJ^");
+            game.GetLocation('7').ToStringList().Should().Be("D7v DKv H5v H9v cQv cAv DQ^");
 
             game.ParseInput("cJ 7");
 
-            game.Locations["2"].ToStringList().Should().Be("DAv sK^");
-            game.Locations["6"].ToStringList().Should().Be("HTv HQv H4v H8v HJ^");
-            game.Locations["7"].ToStringList().Should().Be("D7v DKv H5v H9v cQv cAv DQ^ cJ^");
+            game.GetLocation('2').ToStringList().Should().Be("DAv sK^");
+            game.GetLocation('6').ToStringList().Should().Be("HTv HQv H4v H8v HJ^");
+            game.GetLocation('7').ToStringList().Should().Be("D7v DKv H5v H9v cQv cAv DQ^ cJ^");
 
             game.ParseInput("DQ 2");
 
-            game.Locations["2"].ToStringList().Should().Be("DAv sK^ DQ^ cJ^");
-            game.Locations["6"].ToStringList().Should().Be("HTv HQv H4v H8v HJ^");
-            game.Locations["7"].ToStringList().Should().Be("D7v DKv H5v H9v cQv cA^");
+            game.GetLocation('2').ToStringList().Should().Be("DAv sK^ DQ^ cJ^");
+            game.GetLocation('6').ToStringList().Should().Be("HTv HQv H4v H8v HJ^");
+            game.GetLocation('7').ToStringList().Should().Be("D7v DKv H5v H9v cQv cA^");
         }
 
     }

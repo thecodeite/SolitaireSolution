@@ -23,28 +23,26 @@ namespace Solitaire.Models
         public bool Quit { get; private set; }
         public string Message { get; private set; }
 
-        public Dictionary<string, Pile> Locations { get; private set; }
+        public List<Pile> Locations { get; private set; }
 
         public Pile Stack 
         {
-            get { return Locations["T"]; }
-            set { Locations["T"] = value; }
+            get { return Locations.First(x => x.Name == 'T'); }
         }
 
         public Pile WastePile
         {
-            get { return Locations["W"]; }
-            set { Locations["W"] = value; }
+            get { return Locations.First(x => x.Name == 'W'); }
         }
 
         public void Clear()
         {
-            var columnNames = Suits.AllSuitsUpperCase
-                .Concat(Enumerable.Range(1, 7).Select(x => x.ToString()))
-                .Concat(new[] {"W", "T"})
+            var columnNames = Suits.AllSuitsUpperCase.Select(x=>x[0])
+                .Concat(Enumerable.Range(1, 7).Select(x => (char)('0' + x)))
+                .Concat(new[] {'W', 'T'})
                 .ToList();
 
-            Locations = columnNames.ToDictionary(x => x, x => new Pile());
+            Locations = columnNames.Select(x => new Pile(x)).ToList();
         }
 
         public void Deal(Deck deck = null)
@@ -64,7 +62,7 @@ namespace Solitaire.Models
                     var isFirstCardOfRow = (columnIndex == rowIndex + 1);
                     card.IsFaceDown = !isFirstCardOfRow;
                         
-                    Locations[columnIndex.ToString()].Add(card);
+                    GetLocation(columnIndex).Add(card);
                 }
             }
 
@@ -73,14 +71,14 @@ namespace Solitaire.Models
             Stack.AddRange(deck.Cards);            
         }
 
-       public void Cheat()
+        public void Cheat()
        { 
             Clear();
             foreach (var suit in Suits.AllSuits)
             {
                 foreach (var ordinal in Ordinals.AllOrdinals)
                 {
-                    Locations[suit.ToUpperInvariant()].Add(new Card(suit, ordinal, isFaceDown: false));
+                    GetLocation(suit.ToUpperInvariant()).Add(new Card(suit, ordinal, isFaceDown: false));
                 }
             }
         }
@@ -94,8 +92,8 @@ namespace Solitaire.Models
             builder.AppendLine(BoardBreaker);
 
             var highestRow = Locations
-                .Where(x => x.Key != "W" && x.Key != "T")
-                .Select(x => x.Value.Count)
+                .Where(x => x.IsColumn || x.IsDiscard)
+                .Select(x => x.Count)
                 .Max();
 
             // Render rows
@@ -139,7 +137,7 @@ namespace Solitaire.Models
 
         private string RenderDiscardPile(string pileSuit, int rowIndex)
         {
-            var pile = Locations[pileSuit];
+            var pile = GetLocation(pileSuit);
             var card = pile.Skip(rowIndex-1).FirstOrDefault();
 
             return card == null ? "  " : card.Render();
@@ -150,7 +148,7 @@ namespace Solitaire.Models
             if(columnIndex <1 || columnIndex > 7)
                 throw new ArgumentException("columnIndex must be in range 1-7", "columnIndex");
 
-            var cards = Locations[columnIndex.ToString()];
+            var cards = GetLocation(columnIndex);
 
             var card = cards.Skip(rowIndex-1).FirstOrDefault();
             if (card != null)
@@ -222,40 +220,56 @@ namespace Solitaire.Models
         {
             // Apply no rules
             
-            // Find where the card is currently
+            // Find while pile the card is currently in
             var currentLocation = Locations
-                .FirstOrDefault(x => x.Value.Any(y => string.Equals(y.ToShortHand(), cardShortHand, StringComparison.InvariantCultureIgnoreCase)));
+                .FirstOrDefault(x => x.Any(y => string.Equals(y.ToShortHand(), cardShortHand, StringComparison.InvariantCultureIgnoreCase)));
 
-            if (currentLocation.Key == null)
+            if (currentLocation == null)
             {
                 Message = "Could not find card: " + cardShortHand;
                 return;
             }
 
-            var card = currentLocation.Value
+            var card = currentLocation
                 .First(x => string.Equals( x.ToShortHand(), cardShortHand, StringComparison.InvariantCultureIgnoreCase));
 
-            var index = currentLocation.Value.IndexOf(card);
-            var count = currentLocation.Value.Count - index;
-            
+            var index = currentLocation.IndexOf(card);
+            var count = currentLocation.Count - index;
+
             // Do not move child cards unless moving from column to column
-            if (currentLocation.Key == "T")
+            if (!currentLocation.IsColumn)
             {
                 count = 1;
             }
 
-            var cards = currentLocation.Value.GetRange(index, count);
+            var cards = currentLocation.GetRange(index, count);
 
-            currentLocation.Value.RemoveRange(index, count);
+            currentLocation.RemoveRange(index, count);
 
-            var tip = currentLocation.Value.LastOrDefault();
+            var tip = currentLocation.LastOrDefault();
             if (tip != null && tip.IsFaceDown)
             {
                 tip.Flip();
             }
 
-            var destination = Locations[dest];
+            var destination = GetLocation(dest);
             destination.AddRange(cards);
+        }
+
+        public Pile GetLocation(char pileName)
+        {
+            return Locations.First(x => x.Name == pileName);
+        }
+
+        public Pile GetLocation(string pileName)
+        {
+            return Locations.First(x => x.Name == pileName[0]);
+        }
+
+        public Pile GetLocation(int columnName)
+        {
+            var pileName = (char)('0' + columnName);
+            return Locations.First(x => x.Name == pileName);
         }
     }
 }
