@@ -24,8 +24,7 @@ namespace Tests.ApprovalTests
         }
         
         [Test]
-        [Ignore]
-        // Not sure of the value of this test as game has to be in illegal state for this rule to occur
+        [Ignore("Not sure of the value of this test as game has to be in illegal state for this rule to occur")]
         public void cards_may_be_moved_even_if_cards_below_are_not_sequential_descending_and_of_alternating_case()
         {
             var game = new Game();
@@ -43,9 +42,8 @@ namespace Tests.ApprovalTests
         }
 
         [Test]
-        [Ignore]
+        [Ignore("Postponing writing test due to dubious specification.")]
         // Cards may only be moved to a numbered column if the lowest card on it is of the same suit and is one higher
-        // Postponing writing test due to dubious specification.
         public void can_make_illegal_move_of_card_on_top_of_same_suit()
         {
             var game = new Game();

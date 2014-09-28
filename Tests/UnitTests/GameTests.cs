@@ -126,24 +126,18 @@ namespace Tests.UnitTests
         }
 
         [Test]
-        [Ignore("Not implimented correctly")]
         public void can_move_card_from_column_to_discard()
         {
             var game = new Game();
             game.Deal(Deck.MakeDefaultDeck());
 
-            game.Stack.ToStringList()
-                .Should()
-                .Be("sK^ sQ^ sJ^ sT^ s9^ s8^ s7^ s6^ s5^ s4^ s3^ s2^ sA^ cK^ cQ^ cJ^ cT^ c9^ c8^ c7^ c6^ c5^ c4^ c3^");
-            game.GetLocation('1').ToStringList().Should().Be("DA^");
+            game.GetLocation(1).ToStringList().Should().Be("DA^");
+            game.GetLocation('D').ToStringList().Should().Be("");
 
-            game.ParseInput("SK 1");
+            game.ParseInput("DA D");
 
-            game.Message.Should().Be("Moving SK to 1");
-            game.Stack.ToStringList()
-                .Should()
-                .Be("sQ^ sJ^ sT^ s9^ s8^ s7^ s6^ s5^ s4^ s3^ s2^ sA^ cK^ cQ^ cJ^ cT^ c9^ c8^ c7^ c6^ c5^ c4^ c3^");
-            game.GetLocation('1').ToStringList().Should().Be("DA^ sK^");
+            game.GetLocation(1).ToStringList().Should().Be("");
+            game.GetLocation('D').ToStringList().Should().Be("DA^");
 
         }
 
