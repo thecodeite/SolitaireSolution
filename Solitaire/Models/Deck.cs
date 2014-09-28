@@ -8,8 +8,8 @@ namespace Solitaire.Models
 {
     public class Deck
     {
-        public const string TestDeck = "HA DA D3 D4 D5 HT D7 sK D9 DT DJ cQ DK " +
-                                       "D8 H2 H3 H4 H5 c3 H7 H8 H9 D6 HJ HQ cJ " +
+        public const string TestDeck = "HA DA D3 D4 D5 HT D7 sK D9 DT DJ HQ DK " +
+                                       "D8 H2 H3 H4 H5 c3 H7 H8 H9 D6 HJ cQ cJ " +
                                        "cA DQ H6 c4 c5 c6 c7 c8 c9 cT HK c2 cK " +
                                        "sA s2 s3 s4 s5 s6 s7 s8 s9 sT sJ sQ D2";
 

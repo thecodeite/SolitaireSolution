@@ -154,20 +154,20 @@ namespace Tests.UnitTests
             game.Deal(Deck.MakeTestDeck());
 
             game.Locations["2"].ToStringList().Should().Be("DAv sK^");
-            game.Locations["6"].ToStringList().Should().Be("HTv cQv H4v H8v HJv cJ^");
-            game.Locations["7"].ToStringList().Should().Be("D7v DKv H5v H9v HQv cAv DQ^");
+            game.Locations["6"].ToStringList().Should().Be("HTv HQv H4v H8v HJv cJ^");
+            game.Locations["7"].ToStringList().Should().Be("D7v DKv H5v H9v cQv cAv DQ^");
 
             game.ParseInput("cJ 7");
 
             game.Locations["2"].ToStringList().Should().Be("DAv sK^");
-            game.Locations["6"].ToStringList().Should().Be("HTv cQv H4v H8v HJ^");
-            game.Locations["7"].ToStringList().Should().Be("D7v DKv H5v H9v HQv cAv DQ^ cJ^");
+            game.Locations["6"].ToStringList().Should().Be("HTv HQv H4v H8v HJ^");
+            game.Locations["7"].ToStringList().Should().Be("D7v DKv H5v H9v cQv cAv DQ^ cJ^");
 
             game.ParseInput("DQ 2");
 
             game.Locations["2"].ToStringList().Should().Be("DAv sK^ DQ^ cJ^");
-            game.Locations["6"].ToStringList().Should().Be("HTv cQv H4v H8v HJ^");
-            game.Locations["7"].ToStringList().Should().Be("D7v DKv H5v H9v HQv cA^");
+            game.Locations["6"].ToStringList().Should().Be("HTv HQv H4v H8v HJ^");
+            game.Locations["7"].ToStringList().Should().Be("D7v DKv H5v H9v cQv cA^");
         }
 
     }
