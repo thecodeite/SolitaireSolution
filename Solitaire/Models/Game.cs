@@ -48,7 +48,8 @@ namespace Solitaire.Models
         public void Deal(Deck deck = null)
         {
             // If no deck is provided, get a random, shuffled deck
-            deck = deck ?? Deck.MakeTestDeck();
+            //deck = deck ?? Deck.MakeTestDeck();
+            deck = deck ?? Deck.MakeShuffledDeck();
 
             // Init data strcutures
             Clear();
